@@ -1,30 +1,34 @@
 #!/usr/bin/env bash
 
-# Script to process unzipped files and build parquet files
+# Script to process CSV files and build Parquet files
 
 # Get local path
 localpath=$(pwd)
 echo "Local path: $localpath"
 
-# Set list path
+# Define the download directory
+downloadpath="$localpath/download"
+echo "Download path: $downloadpath"
+
+# Set list path where you can store additional information or lists, if needed
 listpath="$localpath/list"
-mkdir -p $listpath
 echo "List path: $listpath"
 
-# Set raw path
-export rawpath="$localpath/raw"
-echo "Raw path: $rawpath"
-
-# Create brick directory
+# Create brick directory to store Parquet files
 export brickpath="$localpath/brick"
 mkdir -p $brickpath
 echo "Brick path: $brickpath"
 
-# Process raw files and create parquet files in parallel
-# calling a Python function with arguments input and output filenames
-cat $listpath/files.txt | tail -n +4 | xargs -P14 -n1 bash -c '
-  filename="${0%.*}"
-  echo $rawpath/$filename/$filename.txt
-  echo $brickpath/$filename.parquet
-  python stages/csv2parquet.py $rawpath/$filename.txt $brickpath/$filename.parquet
-'
+# Process CSV files and create Parquet files in parallel
+# Calling a Python script with arguments input CSV and output Parquet filenames
+for file in "$downloadpath"/*.csv; do
+  filename=$(basename "$file" .csv)
+  inputpath="$file"
+  outputpath="$brickpath/$filename.parquet"
+  echo "$inputpath"
+  echo "$outputpath"
+  python stages/csv2parquet.py "$inputpath" "$outputpath"
+done
+
+
+echo "CSV to Parquet conversion done."

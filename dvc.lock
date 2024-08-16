@@ -1,2 +1,42 @@
 schema: '2.0'
-stages: {}
+stages:
+  download:
+    cmd: stages/01_download.sh
+    deps:
+    - path: stages/01_download.sh
+      hash: md5
+      md5: e76bcd01a47b958d574d09b2d2a8c2d7
+      size: 1778
+    outs:
+    - path: download
+      hash: md5
+      md5: 2335c6a7f332081e4779e547c0e22917.dir
+      size: 17706177
+      nfiles: 31
+    - path: list
+      hash: md5
+      md5: de59600dae30d3290d533862afd2046f.dir
+      size: 1271
+      nfiles: 1
+  build:
+    cmd: stages/03_build.sh
+    deps:
+    - path: list
+      hash: md5
+      md5: de59600dae30d3290d533862afd2046f.dir
+      size: 1271
+      nfiles: 1
+    - path: stages/03_build.sh
+      hash: md5
+      md5: 3e80fd381d3bd03ba4fdd107407e973b
+      size: 934
+    - path: stages/csv2parquet.py
+      hash: md5
+      md5: 1bc941a5c58b46e8997e7ad0b8d7a861
+      size: 261
+    outs:
+    - path: brick
+      hash: md5
+      md5: d4b51b67c059b9ca276114317cb04fe7.dir
+      size: 7645308
+      nfiles: 31
