@@ -16,6 +16,8 @@ listpath="$localpath/list"
 echo "List path: $listpath"
 mkdir -p $listpath
 
+mkdir -p "$downloadpath/temposeq"
+
 # Change directory to download path
 cd "$downloadpath"
 
@@ -57,9 +59,10 @@ with open(list_file_path, 'w') as list_file:
         order_by = None,
         ascending = None,
         )
-        filename = f'{row.id}.csv'
+        # os.makedirs('temposeq', exist_ok=True)
+        filename = f'./temposeq/{row.id}.csv'
         data_frame.to_csv(filename, index=False)
-        list_file.write(filename + '\n')
+        # list_file.write(filename + '\n')
 
 END
 

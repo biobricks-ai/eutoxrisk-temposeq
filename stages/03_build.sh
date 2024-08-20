@@ -21,10 +21,11 @@ echo "Brick path: $brickpath"
 
 # Process CSV files and create Parquet files in parallel
 # Calling a Python script with arguments input CSV and output Parquet filenames
-for file in "$downloadpath"/*.csv; do
+mkdir -p "$brickpath/temposeq.parquet"
+for file in "$downloadpath/temposeq/"*.csv; do
   filename=$(basename "$file" .csv)
   inputpath="$file"
-  outputpath="$brickpath/$filename.parquet"
+  outputpath="$brickpath/temposeq.parquet/$filename.parquet"
   echo "$inputpath"
   echo "$outputpath"
   python stages/csv2parquet.py "$inputpath" "$outputpath"
