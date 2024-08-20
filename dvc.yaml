@@ -16,14 +16,6 @@ stages:
     outs:
       - download
       - list
-  # unzip: 
-  #   cmd: stages/02_unzip.sh
-  #   deps:
-  #     - stages/02_unzip.sh
-  #     - download
-  #     - list
-  #   outs:
-  #     - raw
   build: 
     cmd: stages/03_build.sh
     deps:
