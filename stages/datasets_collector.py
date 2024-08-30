@@ -130,16 +130,16 @@ class DatasetProcessor:
         Main method to process all datasets based on the specified filters and paths.
         """
         dataset = self.api.get_published_dataset(
-        id = 'd8922983-1724-4ce8-af07-93f290d9c3c2',
-        version = 'latest',
-        )
+            id = 'd8922983-1724-4ce8-af07-93f290d9c3c2',
+            version = 'latest',
+            )
 
         datasets = dataset.get_data(
-        condition = None,
-        aggregation_filters = {},
-        order_by = None,
-        ascending = None,
-        )
+            condition = None,
+            aggregation_filters = {},
+            order_by = None,
+            ascending = None,
+            )
 
         datasets = datasets[datasets['Filename'].apply(lambda x: self.filter_word in str(x))].reset_index(drop=True)
 
