@@ -5,19 +5,18 @@ stages:
     deps:
     - path: stages/01_download.sh
       hash: md5
-      md5: 3e6802e5c68c25b3aa942196f2d94b79
-      size: 1875
-      isexec: true
+      md5: df81fe46e4f976d979ae60c7f6c9b793
+      size: 2139
     outs:
     - path: download
       hash: md5
-      md5: b198d3588a342ce4bbad67d5ffe88916.dir
-      size: 17706177
-      nfiles: 31
+      md5: fc3d3f77df3c7d0934a24070aac927ca.dir
+      size: 17731246
+      nfiles: 63
     - path: list
       hash: md5
-      md5: 226825f473393acae771b2c667b1519c.dir
-      size: 0
+      md5: 1b7a5c6ef99e89f4715f445520c59f2f.dir
+      size: 5345
       nfiles: 1
   build:
     cmd: stages/03_build.sh
