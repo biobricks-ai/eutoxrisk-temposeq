@@ -17,9 +17,9 @@ stages:
       - download
       - list
   build: 
-    cmd: stages/03_build.sh
+    cmd: stages/02_build.sh
     deps:
-      - stages/03_build.sh
+      - stages/02_build.sh
       - stages/csv2parquet.py
       - list
     outs:

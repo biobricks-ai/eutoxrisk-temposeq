@@ -19,14 +19,14 @@ stages:
       size: 5075
       nfiles: 1
   build:
-    cmd: stages/03_build.sh
+    cmd: stages/02_build.sh
     deps:
     - path: list
       hash: md5
       md5: aeb7edcb20ca7bdb19c9e87056b7a354.dir
       size: 5075
       nfiles: 1
-    - path: stages/03_build.sh
+    - path: stages/02_build.sh
       hash: md5
       md5: 59bd6c8f4bf93702b031dad946e70e9e
       size: 1094
