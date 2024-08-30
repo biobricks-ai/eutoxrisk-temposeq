@@ -40,6 +40,7 @@ class DatasetProcessor:
         os.makedirs(os.path.dirname(self.log_file_path), exist_ok=True)
         self.log_file = open(f"{self.log_file_path}/files.txt", "w")
 
+
     def get_pathways_for_gene(self, gene_symbol):
         """
         Fetch pathways associated with a gene symbol using the Enrichr API.
@@ -91,6 +92,7 @@ class DatasetProcessor:
 
         return pd.DataFrame(data)
 
+
     def process_overview(self, datasets):
         """
         Save the overview of datasets to a CSV file and log the file path.
@@ -99,6 +101,7 @@ class DatasetProcessor:
         file_path = f'{self.overview_path}/overview.csv'
         datasets.to_csv(file_path, index=False)
         self.log_file.write(file_path + "\n")
+
 
     def process_individual_datasets(self, datasets):
         """
@@ -112,19 +115,41 @@ class DatasetProcessor:
             data_frame.to_csv(file_path, index=False)
             self.log_file.write(file_path + "\n")
 
+
     def process_pathways(self, datasets):
         """
         Process gene pathways for datasets, save results, and log each file path.
         """
+        degs_pathways = pd.DataFrame(columns=['Gene symbol', 'Rank', 'Pathway',
+                                              'p-value', 'Adj. p-value', 'Odds Ratio',
+                                              'Combined score'])
+
         os.makedirs(self.pathways_path, exist_ok=True)
         for dataset_id in datasets['Dataset id']:
             file_path = f'{self.pathways_path}/{dataset_id}_pathways.csv'
             dataset = self.api.get_published_dataset(id=dataset_id, version='latest')
             data_frame = dataset.get_data()
-            pathways = self.get_pathways_for_gene(data_frame['SYMBOL'].iloc[0])
-            if len(pathways) > 0:
-                pathways.to_csv(file_path, index=False)
+
+            # Filter data based on conditions
+            is_significant_fold_change = (data_frame['logFC'] > self.log_fold_change_threshold) | \
+                                            (data_frame['logFC'] < -self.log_fold_change_threshold)
+            is_significant_p_value = data_frame['padj'] < self.adjusted_p_value_threshold
+
+            # Apply filters to the DataFrame
+            degs_data_frame = data_frame[is_significant_fold_change & is_significant_p_value]
+
+            if len(degs_data_frame) > 0:
+
+                for index, gene_row in degs_data_frame.iterrows():
+                    pathways = self.get_pathways_for_gene(gene_row['SYMBOL'])
+                    degs_pathways = pd.concat([degs_pathways, pathways], ignore_index=True)
+
+                degs_pathways.to_csv(f'{self.pathways_path}/{dataset_id}_pathways.csv', index=False)
                 self.log_file.write(file_path + "\n")
+                # print(pathways)
+            else:
+                print(f"Missing required columns in dataset {dataset_id}")
+
 
     def process_datasets(self):
         """
