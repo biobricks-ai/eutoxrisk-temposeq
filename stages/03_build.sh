@@ -6,10 +6,6 @@
 localpath=$(pwd)
 echo "Local path: $localpath"
 
-# Define the download directory
-downloadpath="$localpath/download"
-echo "Download path: $downloadpath"
-
 # Set list path where you can store additional information or lists, if needed
 listpath="$localpath/list"
 echo "List path: $listpath"
@@ -19,17 +15,20 @@ export brickpath="$localpath/brick"
 mkdir -p $brickpath
 echo "Brick path: $brickpath"
 
-# Process CSV files and create Parquet files in parallel
-# Calling a Python script with arguments input CSV and output Parquet filenames
 mkdir -p "$brickpath/temposeq.parquet"
-for file in "$downloadpath/temposeq/"*.csv; do
-  filename=$(basename "$file" .csv)
-  inputpath="$file"
-  outputpath="$brickpath/temposeq.parquet/$filename.parquet"
-  echo "$inputpath"
-  echo "$outputpath"
-  python stages/csv2parquet.py "$inputpath" "$outputpath"
-done
+mkdir -p "$brickpath/pathways.parquet"
 
+# Loop through each line in files.txt, which contains paths to the .csv files
+while read inputpath; do
+  # Create output path by replacing segments in the file path
+  outputpath=$(echo "$inputpath" | sed -e 's/download/brick/' -e 's/temposeq/temposeq.parquet/' -e 's/pathways/pathways.parquet/' -e 's/\.csv/\.parquet/')
+
+  # Print paths for verification
+  echo "Input path: $inputpath"
+  echo "Output path: $outputpath"
+
+  # Call the Python script for converting CSV to Parquet
+  python stages/csv2parquet.py "$inputpath" "$outputpath"
+done < "$listpath/files.txt"
 
 echo "CSV to Parquet conversion done."
