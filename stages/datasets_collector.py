@@ -122,8 +122,9 @@ class DatasetProcessor:
             dataset = self.api.get_published_dataset(id=dataset_id, version='latest')
             data_frame = dataset.get_data()
             pathways = self.get_pathways_for_gene(data_frame['SYMBOL'].iloc[0])
-            pathways.to_csv(file_path, index=False)
-            self.log_file.write(file_path + "\n")
+            if len(pathways) > 0:
+                pathways.to_csv(file_path, index=False)
+                self.log_file.write(file_path + "\n")
 
     def process_datasets(self):
         """
