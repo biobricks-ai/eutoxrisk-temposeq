@@ -1,42 +1,36 @@
 schema: '2.0'
 stages:
   download:
-    cmd: stages/01_download.sh
+    cmd: python stages/01_download.py
     deps:
-    - path: stages/01_download.sh
+    - path: stages/01_download.py
       hash: md5
-      md5: 3d2308cb06b9bb143fa0d5e56cb1ccdc
-      size: 825
+      md5: c81c3410e4849f8c8aad7511141c8914
+      size: 3872
+      isexec: true
     outs:
     - path: download
       hash: md5
-      md5: 659c839682495c9db7fadc94affe2826.dir
-      size: 17950590
-      nfiles: 44
-    - path: list
-      hash: md5
-      md5: 95cdd373e34cb8f7bdb5a42b554b70e0.dir
-      size: 3635
-      nfiles: 1
+      md5: 7ea64db213f88042dd8d53851d420ac9.dir
+      size: 17953257
+      nfiles: 45
   build:
-    cmd: stages/02_build.sh
+    cmd: python stages/02_build.py
     deps:
-    - path: list
+    - path: download
       hash: md5
-      md5: 95cdd373e34cb8f7bdb5a42b554b70e0.dir
-      size: 3635
-      nfiles: 1
-    - path: stages/02_build.sh
+      md5: 7ea64db213f88042dd8d53851d420ac9.dir
+      size: 17953257
+      nfiles: 45
+    - path: stages/02_build.py
       hash: md5
-      md5: 59bd6c8f4bf93702b031dad946e70e9e
-      size: 1094
-    - path: stages/csv2parquet.py
-      hash: md5
-      md5: 1bc941a5c58b46e8997e7ad0b8d7a861
-      size: 261
+      md5: 4c45a05c075e020500a26a58297f04f3
+      size: 779
     outs:
     - path: brick
       hash: md5
-      md5: 277f1725ee319dbf8b076f46ac022f9e.dir
+      md5: ca0809b50b31f8cce469854306b44125.dir
       size: 7798433
       nfiles: 44
+  environment:
+    cmd: bash stages/00_environment.sh

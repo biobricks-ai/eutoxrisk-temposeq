@@ -1,26 +1,19 @@
-# Brick DVC stages
-# See https://dvc.org/doc/user-guide/project-structure/dvcyaml-files#pipelines-files-dvcyaml
-
-# The complete process can be executed using:
-# dvc repro
-# If you want to force redoing the process use 
-# dvc repro -f
-# Individual stage can be executed using: 
-# dvc repro <stage>
-
 stages:
+  
+  environment:
+    cmd: bash stages/00_environment.sh
+  
   download:
-    cmd: stages/01_download.sh
+    cmd: python stages/01_download.py
     deps:
-      - stages/01_download.sh
+      - stages/01_download.py
     outs:
       - download
-      - list
+  
   build: 
-    cmd: stages/02_build.sh
+    cmd: python stages/02_build.py
     deps:
-      - stages/02_build.sh
-      - stages/csv2parquet.py
-      - list
+      - stages/02_build.py
+      - download
     outs:
       - brick
