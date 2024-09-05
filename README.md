@@ -1,6 +1,6 @@
 # EUToxRisk
 
-# This repository build a tabular bricl using:
+# This repository build a tabular brick using:
 - EUToxRisk TempO-Seq Data retrieved from [EdelweissData](https://edelweissdata.com).
 - Pathways Data retrieved from [WikiPathways](https://www.wikipathways.org).
 
