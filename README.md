@@ -2,7 +2,7 @@
 
 # This repository build a tabular bricl using:
 - EUToxRisk TempO-Seq Data retrieved from [EdelweissData](https://edelweissdata.com).
-- Pathways Data retrieved from WikiPathways.
+- Pathways Data retrieved from [WikiPathways](https://www.wikipathways.org).
 
 
 # Importance of TempO-Seq Data
