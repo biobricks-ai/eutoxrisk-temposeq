@@ -7,7 +7,7 @@ from tqdm import tqdm
 from edelweiss_data import API, QueryExpression as Q
 
 # Define paths and variables
-filter_word = "TEMPO"
+filter_word = "EUT"
 overview_path = pathlib.Path("download")
 dataset_path = overview_path / "temposeq"
 pathways_path = overview_path / "pathways"
