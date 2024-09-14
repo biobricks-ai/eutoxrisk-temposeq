@@ -10,10 +10,24 @@ stages:
     outs:
       - download
   
-  build: 
-    cmd: python stages/02_build.py
+  process:
+    cmd: python stages/02_process.py
     deps:
-      - stages/02_build.py
+      - stages/02_process.py
+    outs:
+      - download
+
+  verify:
+    cmd: python stages/03_verify.py
+    deps:
+      - stages/02_process.py
+    outs:
+      - download
+
+  build: 
+    cmd: python stages/04_build.py
+    deps:
+      - stages/03_verify.py
       - download
     outs:
       - brick
