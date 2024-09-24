@@ -4,30 +4,31 @@ stages:
     cmd: bash stages/00_environment.sh
   
   download:
-    cmd: python stages/01_download.py
+    cmd: python3 stages/01_download.py
     deps:
       - stages/01_download.py
     outs:
       - download
   
   process:
-    cmd: python stages/02_process.py
+    cmd: python3 stages/02_process.py
     deps:
       - stages/02_process.py
     outs:
-      - download
+      - process
 
   verify:
-    cmd: python stages/03_verify.py
+    cmd: python3 stages/03_verify.py
     deps:
       - stages/02_process.py
     outs:
-      - download
+      - verify
 
   build: 
-    cmd: python stages/04_build.py
+    cmd: python3 stages/04_build.py
     deps:
-      - stages/03_verify.py
+      - stages/04_build.py
       - download
+      - verify
     outs:
       - brick

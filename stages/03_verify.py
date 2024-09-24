@@ -2,11 +2,16 @@ import pandas as pd
 import pathlib
 
 # Define paths and variables
-overview_path = pathlib.Path("download")
-downloaded_file_path = overview_path / "downloaded_files.txt"
-processed_file_path = overview_path / "processed_files.txt"
-overview_file_path = overview_path / "overview.csv"
-verification_file_path = overview_path / "verification_success.txt"
+# Input
+download_path = pathlib.Path("download")
+downloaded_file_path = download_path / "downloaded_files.txt"
+overview_file_path = download_path / "overview.csv"
+process_path = pathlib.Path("process")
+processed_file_path = process_path / "processed_files.txt"
+
+# Output
+verify_path = pathlib.Path("verify")
+verification_file_path = verify_path / "verification_success.txt"
 
 # Check that verification file does not exist
 try:
