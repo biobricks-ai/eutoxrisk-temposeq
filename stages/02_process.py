@@ -4,12 +4,16 @@ from tqdm import tqdm
 import gseapy as gp
 
 # Define paths and variables
-overview_path = pathlib.Path("download")
-dataset_path = overview_path / "temposeq"
-downloaded_file_path = overview_path / "downloaded_files.txt"
-overview_file_path = overview_path / "overview.csv"
-log_file_path = overview_path / "processed_files.txt"
-pathways_file_path = overview_path / "pathways.csv"
+# Input
+download_path = pathlib.Path("download")
+dataset_path = download_path / "temposeq"
+downloaded_file_path = download_path / "downloaded_files.txt"
+overview_file_path = download_path / "overview.csv"
+
+# Output
+process_path = pathlib.Path("process")
+log_file_path = process_path / "processed_files.txt"
+pathways_file_path = process_path / "pathways.csv"
 
 LOG_FOLD_CHANGE_THRESHOLD = 2
 ADJUSTED_P_VALUE_THRESHOLD = 0.05

@@ -3,9 +3,11 @@ import pandas as pd
 
 # Set list path where you can store additional information or lists, if needed
 dldir = pathlib.Path("download")
+process_path = pathlib.Path("process")
+verify_path = pathlib.Path("verify")
 
 # Check if verification file exists
-verification_success = dldir / "verification_success.txt"
+verification_success = verify_path / "verification_success.txt"
 if not verification_success.is_file():
     print("Stop building because verification failed.")
     quit()
@@ -27,6 +29,6 @@ for inputpath in file_paths:
     pd.read_csv(inputpath).to_parquet(outputpath)
 
 # Build pathways parquet file
-inputpath = dldir / "pathways.csv"
+inputpath = process_path / "pathways.csv"
 outputpath = inputpath.name.replace("download", "brick").replace(".csv", ".parquet")
 pd.read_csv(inputpath).to_parquet(outputpath)
