@@ -20,6 +20,8 @@ try:
 except:
     print("Verification file doesn't exist")
 
+# Ensure directories exist
+verify_path.mkdir(parents=True, exist_ok=True)
 
 # Read the overview dataset
 overview_file_path = overview_path / 'overview.csv'
