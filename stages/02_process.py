@@ -21,6 +21,7 @@ GENE_SET_LIBRARY = "WikiPathway_2023_Human"
 
 # Ensure directories exist
 dataset_path.mkdir(parents=True, exist_ok=True)
+process_path.mkdir(parents=True, exist_ok=True)
 
 # Read the overview dataset
 datasets = pd.read_csv(overview_file_path)
