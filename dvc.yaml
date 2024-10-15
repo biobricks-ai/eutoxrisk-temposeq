@@ -8,7 +8,9 @@ stages:
     deps:
       - stages/01_download.py
     outs:
-      - download
+      - download:
+          # Allow the stage to keep the existing downloaded files
+          persist: true
   
   process:
     cmd: python3 stages/02_process.py
