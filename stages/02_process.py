@@ -9,6 +9,7 @@ download_path = pathlib.Path("download")
 dataset_path = download_path / "temposeq"
 downloaded_file_path = download_path / "downloaded_files.txt"
 overview_file_path = download_path / "overview.csv"
+gene_set_path = download_path / "WikiPathway_2023_Human.gmt"
 
 # Output
 process_path = pathlib.Path("process")
@@ -17,7 +18,7 @@ pathways_file_path = process_path / "pathways.csv"
 
 LOG_FOLD_CHANGE_THRESHOLD = 2
 ADJUSTED_P_VALUE_THRESHOLD = 0.05
-GENE_SET_LIBRARY = "WikiPathway_2023_Human"
+GENE_SET_LIBRARY = str(gene_set_path)
 
 # Ensure directories exist
 dataset_path.mkdir(parents=True, exist_ok=True)
