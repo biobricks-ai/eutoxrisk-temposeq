@@ -82,7 +82,10 @@ for _, gene_row in tqdm(degs_data_frame.iterrows(), desc=f"Processing {degs_data
     if gene_row['SYMBOL'] == "":
         continue
 
-    pathways = get_pathways_for_gene(gene_row['SYMBOL'], GENE_SET_LIBRARY)
+    try:
+        pathways = get_pathways_for_gene(gene_row['SYMBOL'], GENE_SET_LIBRARY)
+    except ValueError:
+        continue
     if isinstance(pathways, pd.DataFrame):
         if not pathways.empty:
             degs_pathways = pd.concat([degs_pathways, pathways], ignore_index=True)
