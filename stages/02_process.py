@@ -1,7 +1,12 @@
 import pandas as pd
 import pathlib
+import logging
 from tqdm import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
 import gseapy as gp
+
+LOG = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 # Define paths and variables
 # Input
@@ -74,20 +79,25 @@ def get_pathways_for_gene(gene_symbol, gene_set_library):
 
 # Process deg genes
 degs_pathways = pd.DataFrame()
-for _, gene_row in tqdm(degs_data_frame.iterrows(), desc=f"Processing {degs_data_frame.shape[0]} de genes"):
-    
-    if pd.isna(gene_row['SYMBOL']):
-        continue
-    
-    if gene_row['SYMBOL'] == "":
-        continue
+count_skipped = 0
+with logging_redirect_tqdm():
+    for _, gene_row in tqdm(degs_data_frame.iterrows(), desc=f"Processing {degs_data_frame.shape[0]} de genes"):
 
-    try:
-        pathways = get_pathways_for_gene(gene_row['SYMBOL'], GENE_SET_LIBRARY)
-    except ValueError:
-        continue
-    if isinstance(pathways, pd.DataFrame):
-        if not pathways.empty:
-            degs_pathways = pd.concat([degs_pathways, pathways], ignore_index=True)
+        if pd.isna(gene_row['SYMBOL']):
+            continue
+
+        if gene_row['SYMBOL'] == "":
+            continue
+
+        try:
+            pathways = get_pathways_for_gene(gene_row['SYMBOL'], GENE_SET_LIBRARY)
+        except ValueError:
+            count_skipped += 1
+            LOG.info(f"Skipping gene {gene_row['SYMBOL']} (# skipped: {count_skipped})")
+            continue
+
+        if isinstance(pathways, pd.DataFrame):
+            if not pathways.empty:
+                degs_pathways = pd.concat([degs_pathways, pathways], ignore_index=True)
     
 degs_pathways.to_csv(pathways_file_path, index=False)
