@@ -24,7 +24,6 @@ except:
 verify_path.mkdir(parents=True, exist_ok=True)
 
 # Read the overview dataset
-overview_file_path = overview_path / 'overview.csv'
 datasets = pd.read_csv(overview_file_path)
 
 # Read the downloaded file list
