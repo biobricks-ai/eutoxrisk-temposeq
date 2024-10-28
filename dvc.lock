@@ -1,36 +1,86 @@
 schema: '2.0'
 stages:
   download:
-    cmd: python stages/01_download.py
+    cmd: python3 stages/01_download.py
     deps:
     - path: stages/01_download.py
       hash: md5
-      md5: c81c3410e4849f8c8aad7511141c8914
-      size: 3872
-      isexec: true
+      md5: f27388aaf1f4a483a392d91fd67645a5
+      size: 1852
     outs:
     - path: download
       hash: md5
-      md5: 7ea64db213f88042dd8d53851d420ac9.dir
-      size: 17953257
-      nfiles: 45
+      md5: 64cf42be44b1306abf518b2f3a916a43.dir
+      size: 1386181889
+      nfiles: 2339
   build:
-    cmd: python stages/02_build.py
+    cmd: python3 stages/04_build.py
     deps:
     - path: download
       hash: md5
-      md5: 7ea64db213f88042dd8d53851d420ac9.dir
-      size: 17953257
-      nfiles: 45
-    - path: stages/02_build.py
+      md5: 64cf42be44b1306abf518b2f3a916a43.dir
+      size: 1386181889
+      nfiles: 2339
+    - path: process
       hash: md5
-      md5: 4c45a05c075e020500a26a58297f04f3
-      size: 779
+      md5: f66c1ad80c5f5854d9bf743e839b1e0d.dir
+      size: 2558453
+      nfiles: 2
+    - path: stages/04_build.py
+      hash: md5
+      md5: 05303229fc4307f45abb692da6490686
+      size: 1197
+    - path: verify
+      hash: md5
+      md5: 4f9793d4c8f9c109ccbb2843bc932d30.dir
+      size: 24
+      nfiles: 1
     outs:
     - path: brick
       hash: md5
-      md5: ca0809b50b31f8cce469854306b44125.dir
-      size: 7798433
-      nfiles: 44
+      md5: 6345ee4214515c6cfd29569707959fa9.dir
+      size: 596559443
+      nfiles: 2338
   environment:
     cmd: bash stages/00_environment.sh
+  process:
+    cmd: python3 stages/02_process.py
+    deps:
+    - path: download
+      hash: md5
+      md5: 64cf42be44b1306abf518b2f3a916a43.dir
+      size: 1386181889
+      nfiles: 2339
+    - path: stages/02_process.py
+      hash: md5
+      md5: 5f7e191205e66d4b61602b549cd0faac
+      size: 3713
+    outs:
+    - path: process
+      hash: md5
+      md5: f66c1ad80c5f5854d9bf743e839b1e0d.dir
+      size: 2558453
+      nfiles: 2
+  verify:
+    cmd: python3 stages/03_verify.py
+    deps:
+    - path: download
+      hash: md5
+      md5: 64cf42be44b1306abf518b2f3a916a43.dir
+      size: 1386181889
+      nfiles: 2339
+    - path: process
+      hash: md5
+      md5: f66c1ad80c5f5854d9bf743e839b1e0d.dir
+      size: 2558453
+      nfiles: 2
+    - path: stages/02_process.py
+      hash: md5
+      md5: 5f7e191205e66d4b61602b549cd0faac
+      size: 3713
+    outs:
+    - path: verify
+      hash: md5
+      md5: 4f9793d4c8f9c109ccbb2843bc932d30.dir
+      size: 24
+      nfiles: 1
