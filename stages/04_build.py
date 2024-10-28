@@ -30,5 +30,5 @@ for inputpath in file_paths:
 
 # Build pathways parquet file
 inputpath = process_path / "pathways.csv"
-outputpath = inputpath.name.replace("download", "brick").replace(".csv", ".parquet")
+outputpath = brickpath / inputpath.relative_to(process_path).with_suffix(".parquet")
 pd.read_csv(inputpath).to_parquet(outputpath)
