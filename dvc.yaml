@@ -4,16 +4,37 @@ stages:
     cmd: bash stages/00_environment.sh
   
   download:
-    cmd: python stages/01_download.py
+    cmd: python3 stages/01_download.py
     deps:
       - stages/01_download.py
     outs:
-      - download
+      - download:
+          # Allow the stage to keep the existing downloaded files
+          persist: true
   
-  build: 
-    cmd: python stages/02_build.py
+  process:
+    cmd: python3 stages/02_process.py
     deps:
-      - stages/02_build.py
+      - stages/02_process.py
       - download
+    outs:
+      - process
+
+  verify:
+    cmd: python3 stages/03_verify.py
+    deps:
+      - stages/02_process.py
+      - download
+      - process
+    outs:
+      - verify
+
+  build: 
+    cmd: python3 stages/04_build.py
+    deps:
+      - stages/04_build.py
+      - download
+      - process
+      - verify
     outs:
       - brick
