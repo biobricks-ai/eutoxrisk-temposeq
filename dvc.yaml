@@ -16,6 +16,7 @@ stages:
     cmd: python3 stages/02_process.py
     deps:
       - stages/02_process.py
+      - download
     outs:
       - process
 
@@ -23,6 +24,8 @@ stages:
     cmd: python3 stages/03_verify.py
     deps:
       - stages/02_process.py
+      - download
+      - process
     outs:
       - verify
 
@@ -31,6 +34,7 @@ stages:
     deps:
       - stages/04_build.py
       - download
+      - process
       - verify
     outs:
       - brick
